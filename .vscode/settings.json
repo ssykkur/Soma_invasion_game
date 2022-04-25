@@ -1,0 +1,7 @@
+{
+    "editor.wordWrap": "on",
+    "editor.wordWrapColumn": 79,
+    "workbench.editor.wrapTabs": true,
+    "python.linting.flake8Enabled": true,
+    "python.linting.enabled": false
+}
