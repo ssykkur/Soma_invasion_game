@@ -24,6 +24,8 @@ class SomaGame:
         while active:
             self.clock.tick(fps)
             self._check_events()
+            self.soma_ship.move_ship()
+            self._update_pews()
             self._update_screen()
             
     def _check_events(self):
@@ -41,7 +43,7 @@ class SomaGame:
         if event.key == pygame.K_LEFT:
             self.soma_ship.moving_left = True
         if event.key == pygame.K_SPACE:
-            pass
+            self._create_pew()
 
     def _check_keyup_events(self, event):
         if event.key == pygame.K_RIGHT:
@@ -49,10 +51,23 @@ class SomaGame:
         if event.key == pygame.K_LEFT:
             self.soma_ship.moving_left = False
 
+    def _create_pew(self):
+        if len(self.pew_pews) < self.settings.max_pew:
+            new_pew = Pew(self)
+            self.pew_pews.add(new_pew)
+
+    def _update_pews(self):
+        self.pew_pews.update()
+        for pew in self.pew_pews.copy():
+            if pew.rect.bottom <= 0:
+                self.pew_pews.remove(pew)
+
+
     def _update_screen(self):
         self.screen.fill(self.settings.screen_color)
         self.soma_ship.blit_ship()
-        self.soma_ship.move_ship()
+        for pew in self.pew_pews:
+            pew.draw_pew()
         pygame.display.flip()
 
 
